@@ -11,7 +11,7 @@
 
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="408.0" prefWidth="788.0" style="-fx-background-color: #B0C4DE;" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <tabs>
-    <Tab text="Seus Dados">
+    <Tab fx:id="tabDados" text="Seus Dados">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="379.0" prefWidth="766.0" style="-fx-background-color: #DCDCDC;">
                <children>
@@ -22,24 +22,24 @@
                            <children>
                               <TableView fx:id="tabelaDados">
                                 <columns>
-                                  <TableColumn prefWidth="47.0" text="Jogo" />
-                                  <TableColumn prefWidth="53.0" text="Placar" />
-                                    <TableColumn prefWidth="105.0" text="Pontuação Min" />
-                                    <TableColumn prefWidth="98.0" text="Pontuação Máx" />
-                                    <TableColumn prefWidth="155.0" text="Quebra de Recorde Min" />
-                                    <TableColumn prefWidth="167.0" text="Quebra de Recorde Máx " />
+                                  <TableColumn fx:id="colJogo" prefWidth="47.0" text="Jogo" />
+                                  <TableColumn fx:id="colPlacar" prefWidth="53.0" text="Placar" />
+                                    <TableColumn fx:id="colPMin" prefWidth="105.0" text="Pontuação Min" />
+                                    <TableColumn fx:id="colPMax" prefWidth="98.0" text="Pontuação Máx" />
+                                    <TableColumn fx:id="colQuebraMin" prefWidth="155.0" text="Quebra de Recorde Min" />
+                                    <TableColumn fx:id="colQuebraMax" prefWidth="167.0" text="Quebra de Recorde Máx " />
                                 </columns>
                               </TableView>
                            </children>
                         </AnchorPane>
                     </content>
                   </ScrollPane>
-                  <Button fx:id="botaoAdicionar" layoutX="677.0" layoutY="69.0" mnemonicParsing="false" onAction="#adicionarJogo" prefHeight="25.0" prefWidth="97.0" text="Adicionar Jogo" />
-                  <Button fx:id="botaoExcluir" layoutX="677.0" layoutY="102.0" mnemonicParsing="false" onAction="#excluirJogo" prefHeight="25.0" prefWidth="97.0" text="Excluir Jogo" />
+                  <Button fx:id="botaoAdicionar" layoutX="677.0" layoutY="69.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" text="Adicionar Jogo" />
+                  <Button fx:id="botaoExcluir" layoutX="677.0" layoutY="102.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" text="Excluir Jogo" />
                </children></AnchorPane>
       </content>
     </Tab>
-    <Tab text="Seu Desempenho">
+    <Tab fx:id="tabDesempenho" text="Seu Desempenho">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #DCDCDC;">
                <children>
