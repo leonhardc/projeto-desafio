@@ -20,7 +20,7 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0">
                            <children>
-                              <TableView>
+                              <TableView fx:id="tabelaDados">
                                 <columns>
                                   <TableColumn prefWidth="47.0" text="Jogo" />
                                   <TableColumn prefWidth="53.0" text="Placar" />
