@@ -41,9 +41,9 @@ public static java.sql.Connection getConexaoMySQL() {
 
     // Carregando o JDBC Driver padrão
 
-    String driverName = "com.mysql.jdbc.Driver";
+        String driverName = "com.mysql.jdbc.Driver";
 
-    Class.forName(driverName);
+        Class.forName(driverName);
 
 
 

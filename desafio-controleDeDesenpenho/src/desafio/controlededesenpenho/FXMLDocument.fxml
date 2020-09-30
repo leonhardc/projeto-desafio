@@ -34,8 +34,9 @@
                         </AnchorPane>
                     </content>
                   </ScrollPane>
-                  <Button fx:id="botaoExcluir" layoutX="677.0" layoutY="102.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" text="Excluir Jogo" />
+                  <Button fx:id="botaoExcluir" layoutX="677.0" layoutY="102.0" mnemonicParsing="false" onAction="#botaoExclui" prefHeight="25.0" prefWidth="97.0" text="Excluir Jogo" />
                   <Button fx:id="botaoAdicionar" layoutX="677.0" layoutY="69.0" mnemonicParsing="false" onAction="#botaoAdiciona" prefHeight="25.0" prefWidth="97.0" text="Adicionar Jogo" />
+                  <Button fx:id="botaoAtualizar" layoutX="661.0" layoutY="34.0" mnemonicParsing="false" onAction="#atualizaTabela" prefHeight="25.0" prefWidth="113.0" text="Atualizar Tabela" />
                </children></AnchorPane>
       </content>
     </Tab>
