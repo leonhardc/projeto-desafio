@@ -11,7 +11,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -20,7 +19,7 @@ import javafx.scene.control.TableView;
  *
  * @author Leonardo
  */
-public class FXMLDocumentController implements Initializable {
+public class FXMLDocumentController {
     
 @FXML
     private Tab tabDados;
@@ -54,21 +53,10 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private Tab tabDesempenho;
-
-    @FXML
-    void adicionarJogo(ActionEvent event) {
-
-    }
     
     @FXML
-    void excluirJogo(ActionEvent event) {
-
+    private void botaoAdiciona(){
+        System.out.println("deu certo");
     }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-   
     
 }

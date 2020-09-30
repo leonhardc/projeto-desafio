@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="408.0" prefWidth="788.0" style="-fx-background-color: #B0C4DE;" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="408.0" prefWidth="788.0" style="-fx-background-color: #B0C4DE;" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desafio.controlededesenpenho.FXMLDocumentController">
   <tabs>
     <Tab fx:id="tabDados" text="Seus Dados">
       <content>
@@ -34,8 +34,8 @@
                         </AnchorPane>
                     </content>
                   </ScrollPane>
-                  <Button fx:id="botaoAdicionar" layoutX="677.0" layoutY="69.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" text="Adicionar Jogo" />
                   <Button fx:id="botaoExcluir" layoutX="677.0" layoutY="102.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" text="Excluir Jogo" />
+                  <Button fx:id="botaoAdicionar" layoutX="677.0" layoutY="69.0" mnemonicParsing="false" onAction="#botaoAdiciona" prefHeight="25.0" prefWidth="97.0" text="Adicionar Jogo" />
                </children></AnchorPane>
       </content>
     </Tab>

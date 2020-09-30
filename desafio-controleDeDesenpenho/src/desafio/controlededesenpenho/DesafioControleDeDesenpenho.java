@@ -22,6 +22,7 @@ public class DesafioControleDeDesenpenho extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
+        
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
         Scene scene = new Scene(root);
@@ -34,8 +35,6 @@ public class DesafioControleDeDesenpenho extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ConexaoDB con = new ConexaoDB();
-        Connection conexaoMySQL = ConexaoDB.getConexaoMySQL();
         launch(args);
     }
     
