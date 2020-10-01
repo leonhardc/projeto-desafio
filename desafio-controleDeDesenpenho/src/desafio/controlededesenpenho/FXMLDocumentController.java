@@ -14,6 +14,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -76,8 +78,8 @@ public class FXMLDocumentController implements Initializable{
     int quebramin, ultquebramin;
     int quebramax, ultquebramax;
     
-    @FXML
-    void atualizaTabela(ActionEvent event) throws SQLException { // Metodo usado para atualizar os dados da tabela
+   
+    void atualizaTabela() throws SQLException { // Metodo usado para atualizar os dados da tabela
         
         Connection conn = ConexaoDB.getConexaoMySQL();
         
@@ -100,7 +102,7 @@ public class FXMLDocumentController implements Initializable{
         tabelaDados.setItems(data);
         
         ConexaoDB.FecharConexao();
-    }    
+    }   
     
     @FXML
     private void botaoAdiciona() throws SQLException{
@@ -164,8 +166,6 @@ public class FXMLDocumentController implements Initializable{
              
              }
 
-             // System.out.println(placar + "  " + mintemp + "  " + maxtemp + "  " + quebramin + "  " + quebramax);
-
              // Terceiro Passo: reinsere valores no banco
              PreparedStatement statement = conn.prepareStatement(sqlAdd);
              statement.setInt(1, ultimoJogo+1);
@@ -178,6 +178,8 @@ public class FXMLDocumentController implements Initializable{
              statement.execute();
 
              ConexaoDB.FecharConexao(); 
+             
+             atualizaTabela();
        }
        catch(HeadlessException | NumberFormatException e){
          
@@ -190,22 +192,31 @@ public class FXMLDocumentController implements Initializable{
     
     @FXML
     private void botaoExclui() throws SQLException{      
-            
-        Connection conn = ConexaoDB.getConexaoMySQL();
         
-        // seleciona do banco o ultimo registro
-        ResultSet res = conn.createStatement().executeQuery("select * from registros where Jogo = (select max(Jogo) from registros)");
-        while(res.next()){
-            ultimoJogo = res.getInt(1);
+        int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o ultimo jogo?","Mensagem", JOptionPane.YES_NO_OPTION);
+
+        if (resposta == JOptionPane.YES_OPTION) {
+            //Usuário clicou em Sim. Executar o código correspondente.
+            Connection conn = ConexaoDB.getConexaoMySQL();
+        
+            // seleciona do banco o ultimo registro
+            ResultSet res = conn.createStatement().executeQuery("select * from registros where Jogo = (select max(Jogo) from registros)");
+            while(res.next()){
+                ultimoJogo = res.getInt(1);
+            }
+
+            // faz a exclusão do ultimo jogo
+            PreparedStatement statement = conn.prepareStatement("delete from registros where Jogo = ?");
+            statement.setInt(1, ultimoJogo);
+            statement.executeUpdate();
+            ultimoJogo = ultimoJogo - 1; // atualiza a variavel global
+            ConexaoDB.FecharConexao();
+            atualizaTabela();
+        } else if (resposta == JOptionPane.NO_OPTION) {
+            //Usuário clicou em não. Executar o código correspondente.
         }
         
-        // faz a exclusão do ultimo jogo
-        PreparedStatement statement = conn.prepareStatement("delete from registros where Jogo = ?");
-        statement.setInt(1, ultimoJogo);
-        statement.executeUpdate();
-        ultimoJogo = ultimoJogo - 1; // atualiza a variavel global
-        ConexaoDB.FecharConexao();
-        System.out.println("deu certo...");
+        
     }
     
     
@@ -214,5 +225,10 @@ public class FXMLDocumentController implements Initializable{
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         dc = new ConexaoDB();
+    try {
+        atualizaTabela();
+    } catch (SQLException ex) {
+        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+    }
     } 
 }

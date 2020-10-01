@@ -9,11 +9,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="408.0" prefWidth="788.0" style="-fx-background-color: #B0C4DE;" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desafio.controlededesenpenho.FXMLDocumentController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="408.0" prefWidth="672.0" style="-fx-background-color: #B0C4DE;" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desafio.controlededesenpenho.FXMLDocumentController">
   <tabs>
     <Tab fx:id="tabDados" text="Seus Dados">
       <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="379.0" prefWidth="766.0" style="-fx-background-color: #DCDCDC;">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="379.0" prefWidth="715.0" style="-fx-background-color: #DCDCDC;">
                <children>
                   <VBox prefHeight="383.0" prefWidth="123.0" style="-fx-background-color: #4169E1;" />
                   <ScrollPane hbarPolicy="ALWAYS" hmax="1.5" layoutX="123.0" layoutY="69.0" pannable="true" prefHeight="310.0" prefWidth="548.0" vbarPolicy="ALWAYS">
@@ -34,9 +34,8 @@
                         </AnchorPane>
                     </content>
                   </ScrollPane>
-                  <Button fx:id="botaoExcluir" layoutX="677.0" layoutY="102.0" mnemonicParsing="false" onAction="#botaoExclui" prefHeight="25.0" prefWidth="97.0" text="Excluir Jogo" />
-                  <Button fx:id="botaoAdicionar" layoutX="677.0" layoutY="69.0" mnemonicParsing="false" onAction="#botaoAdiciona" prefHeight="25.0" prefWidth="97.0" text="Adicionar Jogo" />
-                  <Button fx:id="botaoAtualizar" layoutX="661.0" layoutY="34.0" mnemonicParsing="false" onAction="#atualizaTabela" prefHeight="25.0" prefWidth="113.0" text="Atualizar Tabela" />
+                  <Button fx:id="botaoExcluir" layoutX="561.0" layoutY="38.0" mnemonicParsing="false" onAction="#botaoExclui" prefHeight="25.0" prefWidth="97.0" text="Excluir Jogo" />
+                  <Button fx:id="botaoAdicionar" layoutX="123.0" layoutY="38.0" mnemonicParsing="false" onAction="#botaoAdiciona" prefHeight="25.0" prefWidth="97.0" text="Adicionar Jogo" />
                </children></AnchorPane>
       </content>
     </Tab>

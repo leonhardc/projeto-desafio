@@ -53,7 +53,7 @@ public static java.sql.Connection getConexaoMySQL() {
 
             String mydatabase = "mydb";        //nome do seu banco de dados
 
-            String url = "jdbc:mysql://" + serverName + "/" + mydatabase;
+            String url = "jdbc:mysql://" + serverName + "/" + mydatabase + "?verifyServerCertificate=false&useSSL=true";
 
             String username = "root";        //nome de um usuário de seu BD
 
