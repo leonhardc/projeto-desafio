@@ -5,6 +5,7 @@
  */
 package desafio.controlededesenpenho;
 
+import dados.Dados;
 import conexaodb.ConexaoDB;
 import java.awt.HeadlessException;
 import java.sql.Connection;
@@ -100,11 +101,6 @@ public class FXMLDocumentController implements Initializable{
 
     @FXML
     private Label labelInfoPontMax;
-
-    
-    
-    private ObservableList <Dados> data;    
-    private ConexaoDB dc;
     
     int ultimoJogo;
     int placar;
@@ -112,6 +108,37 @@ public class FXMLDocumentController implements Initializable{
     int maxtemp, ultmaxtemp ;
     int quebramin, ultquebramin;
     int quebramax, ultquebramax;
+    
+    // Métodos
+    
+    void atualizaTabela() throws SQLException { // Metodo usado para atualizar os dados da tabela
+        
+        Connection conn = ConexaoDB.getConexaoMySQL(); // conexão com banco de dados    
+        ObservableList <Dados> data;
+        data = FXCollections.observableArrayList();
+        ResultSet rs = conn.createStatement().executeQuery("select * from registros");
+        
+        while(rs.next()){  
+            
+            data.add(new Dados(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6)));
+        
+        }
+        
+        // setando valores na lista de objetos
+        colJogo.setCellValueFactory(new PropertyValueFactory<>("jogo"));
+        colPlacar.setCellValueFactory(new PropertyValueFactory<>("placar"));
+        colPMin.setCellValueFactory(new PropertyValueFactory<>("mintemp"));
+        colPMax.setCellValueFactory(new PropertyValueFactory<>("maxtemp"));
+        colQuebraMin.setCellValueFactory(new PropertyValueFactory<>("quebramin"));
+        colQuebraMax.setCellValueFactory(new PropertyValueFactory<>("quebramax"));
+        
+        // Setar valores na Tabela
+        tabelaDados.setItems(null);
+        tabelaDados.setItems(data);
+        
+        ConexaoDB.FecharConexao(); // fechar conexção com banco de dados        
+        setarDadosGrafico(); // Atualiza valores do gráfico na aba desempenho na aba de desempenho
+    }  
     
     @FXML
     void setarDadosGrafico() throws SQLException{ // Seta os dados contidos no banco de dados no gráfico de linha da aba de desempenho
@@ -145,8 +172,8 @@ public class FXMLDocumentController implements Initializable{
         // Setando as entradas dos Labels
         mediaPlacar =  somaPlacar / numeroDeJogos;
         String aux1 = "" + mediaPlacar + " Pontos";
-        String aux2 = "" + recMin + "Pontos";
-        String aux3 = "" + recMax + "Pontos";
+        String aux2 = "" + recMin + " Pontos";
+        String aux3 = "" + recMax + " Pontos";
         String aux4 = "Você quebrou seu recorde mínimo " + qMin + " vezes e,";
         String aux5;
         if (qMin == 0 && qMax == 0){
@@ -163,43 +190,18 @@ public class FXMLDocumentController implements Initializable{
         labelInfoPontMin.setText(aux4);
         labelInfoPontMax.setText(aux5);
         
-        // atualiza informações do gráfico
+        // atualiza informações do gráfico 
+        graficoLinha.getData().clear();
         graficoLinha.getData().add(jogo);
         
   
-    }    
-    
-    void atualizaTabela() throws SQLException { // Metodo usado para atualizar os dados da tabela
-        
-        Connection conn = ConexaoDB.getConexaoMySQL();
-        
-        data = FXCollections.observableArrayList();
-        ResultSet rs = conn.createStatement().executeQuery("select * from registros");
-        
-        while(rs.next()){            
-            data.add(new Dados(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6)));
-        }
-        
-        // setando valores na tabela
-        colJogo.setCellValueFactory(new PropertyValueFactory<>("jogo"));
-        colPlacar.setCellValueFactory(new PropertyValueFactory<>("placar"));
-        colPMin.setCellValueFactory(new PropertyValueFactory<>("mintemp"));
-        colPMax.setCellValueFactory(new PropertyValueFactory<>("maxtemp"));
-        colQuebraMin.setCellValueFactory(new PropertyValueFactory<>("quebramin"));
-        colQuebraMax.setCellValueFactory(new PropertyValueFactory<>("quebramax"));
-        
-        tabelaDados.setItems(null);
-        tabelaDados.setItems(data);
-        
-        ConexaoDB.FecharConexao();
-        
-        setarDadosGrafico();
-    }   
+    } 
     
     @FXML
     private void botaoAdiciona() throws SQLException{
  
        try{
+           
             placar = Integer.parseInt(JOptionPane.showInputDialog(null, "Qual o placar do Jogo?"));
             
             if(placar >= 0){
@@ -283,9 +285,8 @@ public class FXMLDocumentController implements Initializable{
        catch(HeadlessException | NumberFormatException e){
          
            JOptionPane.showMessageDialog(null,"Provavelmente você inseriu algo errado!");
-       }
        
-     
+       }    
         
     }
     
@@ -296,10 +297,10 @@ public class FXMLDocumentController implements Initializable{
 
         if (resposta == JOptionPane.YES_OPTION) {
             //Usuário clicou em Sim. Executar o código correspondente.
-            Connection conn = ConexaoDB.getConexaoMySQL();
-        
+            Connection conn = ConexaoDB.getConexaoMySQL();        
             // seleciona do banco o ultimo registro
             ResultSet res = conn.createStatement().executeQuery("select * from registros where Jogo = (select max(Jogo) from registros)");
+            
             while(res.next()){
                 ultimoJogo = res.getInt(1);
             }
@@ -311,17 +312,15 @@ public class FXMLDocumentController implements Initializable{
             ultimoJogo = ultimoJogo - 1; // atualiza a variavel global
             ConexaoDB.FecharConexao();
             atualizaTabela();
+                        
         } else if (resposta == JOptionPane.NO_OPTION) {
             //Usuário clicou em não.
-        }
-        
+        }     
         
     }    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        dc = new ConexaoDB();
        
     try {
         atualizaTabela();
@@ -330,5 +329,7 @@ public class FXMLDocumentController implements Initializable{
     } catch (SQLException ex) {
         Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
     }
+
     } 
+
 }
