@@ -21,12 +21,19 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javax.swing.JOptionPane;
+import javafx.stage.Stage;
 
 /**
  *
@@ -34,7 +41,7 @@ import javax.swing.JOptionPane;
  */
 public class FXMLDocumentController implements Initializable{
     
-@FXML
+    @FXML
     private Tab tabDados;
 
     @FXML
@@ -67,8 +74,36 @@ public class FXMLDocumentController implements Initializable{
     @FXML
     private Tab tabDesempenho;
     
+    @FXML
+    private LineChart <String,Number> graficoLinha;
+
+    @FXML
+    private CategoryAxis linhaDeJogos;
+
+    @FXML
+    private NumberAxis linhaDePontuacao;
     
-    private ObservableList<Dados>data;    
+    @FXML
+    private Label labelInfo;
+
+    @FXML
+    private Label labelMedia;
+    
+    @FXML
+    private Label labelRecMin;
+    
+    @FXML
+    private Label labelRecMax;
+    
+    @FXML
+    private Label labelInfoPontMin;
+
+    @FXML
+    private Label labelInfoPontMax;
+
+    
+    
+    private ObservableList <Dados> data;    
     private ConexaoDB dc;
     
     int ultimoJogo;
@@ -78,7 +113,62 @@ public class FXMLDocumentController implements Initializable{
     int quebramin, ultquebramin;
     int quebramax, ultquebramax;
     
-   
+    @FXML
+    void setarDadosGrafico() throws SQLException{ // Seta os dados contidos no banco de dados no gráfico de linha da aba de desempenho
+        
+        XYChart.Series <String, Number> jogo = new XYChart.Series <String, Number>();
+        int somaPlacar = 0, recMin = 0, recMax = 0, numeroDeJogos = 0, auxPontos, mediaPlacar, qMin = 0, qMax = 0;
+        String auxJogo;      
+        
+        //Inicio: Procurar dados no banco
+        
+        Connection conn = ConexaoDB.getConexaoMySQL();
+
+        ResultSet rs = conn.createStatement().executeQuery("select * from registros");          
+        
+        while(rs.next()){
+            
+            auxJogo = "" + rs.getInt(1);
+            auxPontos = rs.getInt(2);
+            recMin = rs.getInt(3);
+            recMax = rs.getInt(4);
+            qMin = rs.getInt(5);
+            qMax = rs.getInt(6);
+                    
+            jogo.getData().add(new XYChart.Data<String, Number>(auxJogo,auxPontos));
+            
+            somaPlacar = somaPlacar + rs.getInt(2);
+            numeroDeJogos = rs.getInt(1);
+        
+        }
+
+        // Setando as entradas dos Labels
+        mediaPlacar =  somaPlacar / numeroDeJogos;
+        String aux1 = "" + mediaPlacar + " Pontos";
+        String aux2 = "" + recMin + "Pontos";
+        String aux3 = "" + recMax + "Pontos";
+        String aux4 = "Você quebrou seu recorde mínimo " + qMin + " vezes e,";
+        String aux5;
+        if (qMin == 0 && qMax == 0){
+            aux5 = "seu recorde máximo " + qMax + " vezes. Não Desista. VOCÊ CONSEGUE!!!";
+        }
+        else{
+            aux5 = "seu recorde máximo " + qMax + " vezes. Parabéns, continue progredindo!!!";
+        }        
+        
+        // setar Labels da aba de desempenho
+        labelMedia.setText(aux1);
+        labelRecMin.setText(aux2);
+        labelRecMax.setText(aux3);
+        labelInfoPontMin.setText(aux4);
+        labelInfoPontMax.setText(aux5);
+        
+        // atualiza informações do gráfico
+        graficoLinha.getData().add(jogo);
+        
+  
+    }    
+    
     void atualizaTabela() throws SQLException { // Metodo usado para atualizar os dados da tabela
         
         Connection conn = ConexaoDB.getConexaoMySQL();
@@ -102,6 +192,8 @@ public class FXMLDocumentController implements Initializable{
         tabelaDados.setItems(data);
         
         ConexaoDB.FecharConexao();
+        
+        setarDadosGrafico();
     }   
     
     @FXML
@@ -110,80 +202,87 @@ public class FXMLDocumentController implements Initializable{
        try{
             placar = Integer.parseInt(JOptionPane.showInputDialog(null, "Qual o placar do Jogo?"));
             
-            Connection conn = ConexaoDB.getConexaoMySQL();
-       
-            String sqlBuscaUltima = "select * from registros where Jogo = (select max(Jogo) from registros)";
-            String sqlAdd = "insert into registros (Jogo, Placar, MinTemp, MaxTemp, QuebraRecMin, QuebraRecMax) values (?,?,?,?,?,?)";
+            if(placar >= 0){
+                
+                Connection conn = ConexaoDB.getConexaoMySQL();
 
-            /** Passos do processo daqui para frente
-             1. realiza busca da ultima tupla
-             2. compara valores para saber se algo a mais será modificado
-             3. reinsere valores no banco*/
+                String sqlBuscaUltima = "select * from registros where Jogo = (select max(Jogo) from registros)";
+                String sqlAdd = "insert into registros (Jogo, Placar, MinTemp, MaxTemp, QuebraRecMin, QuebraRecMax) values (?,?,?,?,?,?)";
 
-            // Primeiro passo: Realizar busca da ultima tupla
+                /** Passos do processo daqui para frente
+                 1. realiza busca da ultima tupla
+                 2. compara valores para saber se algo a mais será modificado
+                 3. reinsere valores no banco*/
 
-             ResultSet res = conn.createStatement().executeQuery("select * from registros where Jogo = (select max(Jogo) from registros)");
-             while(res.next()){
-             ultimoJogo = res.getInt(1);
-             ultmintemp = res.getInt(3);
-             ultmaxtemp = res.getInt(4);
-             ultquebramin = res.getInt(5);
-             ultquebramax = res.getInt(6);
-             }
+                // Primeiro passo: Realizar busca da ultima tupla
 
-
-             // Segundo Passo:verificar se temos uma pontuação menor que a menor ou maior que a maior
-
-             if (ultimoJogo == 0){
-                 mintemp = maxtemp = placar;
-                 quebramin = quebramax = 0;
-             }
-             else{
-                if (placar < ultmintemp){ // atualizando os valores de maximo e minimo da temporada
-                                       // nao houve quebra de recorde minimo
-                    mintemp = placar;
-                    quebramin = ultquebramin;
-
+                 ResultSet res = conn.createStatement().executeQuery("select * from registros where Jogo = (select max(Jogo) from registros)");
+                 while(res.next()){
+                 ultimoJogo = res.getInt(1);
+                 ultmintemp = res.getInt(3);
+                 ultmaxtemp = res.getInt(4);
+                 ultquebramin = res.getInt(5);
+                 ultquebramax = res.getInt(6);
                  }
-                else{ // ouve quebra de recorde minimo
-                    mintemp = ultmintemp;
-                    if (placar >= ultmintemp && placar < ultmaxtemp){
-                        quebramin = ultquebramin + 1;
-                    }
-                    else {
+
+
+                 // Segundo Passo:verificar se temos uma pontuação menor que a menor ou maior que a maior
+
+                 if (ultimoJogo == 0){
+                     mintemp = maxtemp = placar;
+                     quebramin = quebramax = 0;
+                 }
+                 else{
+                    if (placar < ultmintemp){ // atualizando os valores de maximo e minimo da temporada
+                                           // nao houve quebra de recorde minimo
+                        mintemp = placar;
                         quebramin = ultquebramin;
-                    }            
+
+                     }
+                    else{ // ouve quebra de recorde minimo
+                        mintemp = ultmintemp;
+                        if (placar >= ultmintemp && placar < ultmaxtemp){
+                            quebramin = ultquebramin + 1;
+                        }
+                        else {
+                            quebramin = ultquebramin;
+                        }            
+                     }
+
+                    if (placar > ultmaxtemp){ // houve quebra de recorde maximo
+                        maxtemp = placar;
+                        quebramax = ultquebramax + 1;
+                    }
+                    else{  // nao houve quebra de recorde maximo
+                       maxtemp = ultmaxtemp;
+                       quebramax = ultquebramax;
+                    }
+
                  }
 
-                if (placar > ultmaxtemp){ // houve quebra de recorde maximo
-                    maxtemp = placar;
-                    quebramax = ultquebramax + 1;
-                }
-                else{  // nao houve quebra de recorde maximo
-                   maxtemp = ultmaxtemp;
-                   quebramax = ultquebramax;
-                }
-             
-             }
+                 // Terceiro Passo: reinsere valores no banco
+                 PreparedStatement statement = conn.prepareStatement(sqlAdd);
+                 statement.setInt(1, ultimoJogo+1);
+                 statement.setInt(2, placar);
+                 statement.setInt(3, mintemp);
+                 statement.setInt(4, maxtemp);
+                 statement.setInt(5, quebramin);
+                 statement.setInt(6, quebramax);
 
-             // Terceiro Passo: reinsere valores no banco
-             PreparedStatement statement = conn.prepareStatement(sqlAdd);
-             statement.setInt(1, ultimoJogo+1);
-             statement.setInt(2, placar);
-             statement.setInt(3, mintemp);
-             statement.setInt(4, maxtemp);
-             statement.setInt(5, quebramin);
-             statement.setInt(6, quebramax);
+                 statement.execute();
 
-             statement.execute();
+                 ConexaoDB.FecharConexao(); 
 
-             ConexaoDB.FecharConexao(); 
-             
-             atualizaTabela();
+                 atualizaTabela();
+            }
+            else{
+                // nao existe placar negativo
+                JOptionPane.showMessageDialog(null,"Pontuação Inválida!");
+            }
        }
        catch(HeadlessException | NumberFormatException e){
          
-           JOptionPane.showMessageDialog(null,"Provavelmente você inseriu algum caractere errado!");
+           JOptionPane.showMessageDialog(null,"Provavelmente você inseriu algo errado!");
        }
        
      
@@ -213,20 +312,21 @@ public class FXMLDocumentController implements Initializable{
             ConexaoDB.FecharConexao();
             atualizaTabela();
         } else if (resposta == JOptionPane.NO_OPTION) {
-            //Usuário clicou em não. Executar o código correspondente.
+            //Usuário clicou em não.
         }
         
         
-    }
-    
-    
+    }    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         dc = new ConexaoDB();
+       
     try {
         atualizaTabela();
+        setarDadosGrafico();
+        
     } catch (SQLException ex) {
         Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
     }
