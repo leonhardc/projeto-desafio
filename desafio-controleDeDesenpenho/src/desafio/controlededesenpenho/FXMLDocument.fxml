@@ -10,6 +10,8 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -20,7 +22,14 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="379.0" prefWidth="715.0" style="-fx-background-color: #DCDCDC;">
                <children>
-                  <VBox prefHeight="383.0" prefWidth="122.0" style="-fx-background-color: #4169E1;" />
+                  <VBox prefHeight="383.0" prefWidth="122.0" style="-fx-background-color: #4169E1;">
+                     <children>
+                        <ImageView fitHeight="122.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@ico.png" />
+                           </image>
+                        </ImageView>
+                     </children></VBox>
                   <ScrollPane hmax="1.5" layoutX="123.0" layoutY="69.0" prefHeight="310.0" prefWidth="548.0">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0">
@@ -48,7 +57,14 @@
       <content>
         <AnchorPane fx:id="graficoDeLinha" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #DCDCDC;">
                <children>
-                  <VBox prefHeight="382.0" prefWidth="120.0" style="-fx-background-color: #4169E1;" />
+                  <VBox prefHeight="382.0" prefWidth="120.0" style="-fx-background-color: #4169E1;">
+                     <children>
+                        <ImageView fitHeight="122.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@ico.png" />
+                           </image>
+                        </ImageView>
+                     </children></VBox>
                   <LineChart fx:id="graficoLinha" layoutX="289.0" layoutY="11.0" legendVisible="false" prefHeight="309.0" prefWidth="393.0" title="Sua Pontuação Por Jogo">
                     <xAxis>
                       <CategoryAxis fx:id="linhaDeJogos" label="Jogos" side="BOTTOM" />
