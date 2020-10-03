@@ -6,8 +6,6 @@
 package desafio.controlededesenpenho;
 
 
-import conexaodb.ConexaoDB;
-import java.sql.Connection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,7 +13,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- *
+ * Projeto criado com o intuito de resolver o problema dado como desafio no processo seletivo
+ * FORMAÇÃO DE TALENTOS PÚBLICA TECNOLOGIA
  * @author Leonardo
  */
 public class DesafioControleDeDesenpenho extends Application {
@@ -28,18 +27,19 @@ public class DesafioControleDeDesenpenho extends Application {
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
+        
         stage.show();
+        
     }
     
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        
-        
+    public static void main(String[] args) {      
         
         launch(args);
+        
     }
     
 }

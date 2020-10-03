@@ -39,7 +39,7 @@
                         </AnchorPane>
                     </content>
                   </ScrollPane>
-                  <Button fx:id="botaoExcluir" layoutX="561.0" layoutY="38.0" mnemonicParsing="false" onAction="#botaoExclui" prefHeight="25.0" prefWidth="97.0" text="Excluir Jogo" />
+                  <Button fx:id="botaoExcluir" layoutX="569.0" layoutY="38.0" mnemonicParsing="false" onAction="#botaoExclui" prefHeight="25.0" prefWidth="97.0" text="Excluir Jogo" />
                   <Button fx:id="botaoAdicionar" layoutX="123.0" layoutY="38.0" mnemonicParsing="false" onAction="#botaoAdiciona" prefHeight="25.0" prefWidth="97.0" text="Adicionar Jogo" />
                </children></AnchorPane>
       </content>
@@ -49,7 +49,7 @@
         <AnchorPane fx:id="graficoDeLinha" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #DCDCDC;">
                <children>
                   <VBox prefHeight="382.0" prefWidth="120.0" style="-fx-background-color: #4169E1;" />
-                  <LineChart fx:id="graficoLinha" layoutX="289.0" layoutY="11.0" legendVisible="false" prefHeight="309.0" prefWidth="393.0" title="Seu Desempenho">
+                  <LineChart fx:id="graficoLinha" layoutX="289.0" layoutY="11.0" legendVisible="false" prefHeight="309.0" prefWidth="393.0" title="Sua Pontuação Por Jogo">
                     <xAxis>
                       <CategoryAxis fx:id="linhaDeJogos" label="Jogos" side="BOTTOM" />
                     </xAxis>
@@ -57,19 +57,19 @@
                       <NumberAxis fx:id="linhaDePontuacao" label="Pontuação" prefHeight="223.0" prefWidth="45.0" side="LEFT" upperBound="50.0" />
                     </yAxis>
                   </LineChart>
-                  <Label fx:id="labelInfo" layoutX="128.0" layoutY="205.0" prefHeight="17.0" prefWidth="100.0" text="Média de Pontos:" />
-                  <Label fx:id="labelMedia" layoutX="241.0" layoutY="205.0" prefHeight="17.0" prefWidth="73.0" />
-                  <Label layoutX="126.0" layoutY="232.0" text="Menor Pontuação:" />
-                  <Label fx:id="labelRecMin" layoutX="240.0" layoutY="232.0" prefHeight="17.0" prefWidth="50.0" />
-                  <Label layoutX="126.0" layoutY="264.0" text="Maior Pontuação:" />
-                  <Label fx:id="labelRecMax" layoutX="240.0" layoutY="264.0" prefHeight="17.0" prefWidth="50.0" />
+                  <Label fx:id="labelInfo" layoutX="130.0" layoutY="205.0" prefHeight="17.0" prefWidth="100.0" text="Média de Pontos:" />
+                  <Label fx:id="labelMedia" layoutX="240.0" layoutY="205.0" prefHeight="17.0" prefWidth="73.0" />
+                  <Label fx:id="labelInfo2" layoutX="130.0" layoutY="235.0" prefWidth="100.0" text="Menor Pontuação:" />
+                  <Label fx:id="labelRecMin" layoutX="240.0" layoutY="235.0" prefHeight="17.0" prefWidth="50.0" />
+                  <Label fx:id="labelInfo3" layoutX="130.0" layoutY="265.0" prefWidth="100.0" text="Maior Pontuação:" />
+                  <Label fx:id="labelRecMax" layoutX="240.0" layoutY="265.0" prefHeight="17.0" prefWidth="50.0" />
                   <Label fx:id="labelInformcao1" layoutX="126.0" layoutY="191.0" />
                   <Label layoutX="126.0" layoutY="181.0" />
                   <Label layoutX="126.0" layoutY="208.0" />
                   <Label layoutX="136.0" layoutY="218.0" />
-                  <Label fx:id="labelInfoPontMin" layoutX="124.0" layoutY="298.0" prefHeight="17.0" prefWidth="424.0" />
-                  <Label fx:id="labelInfoPontMax" layoutX="126.0" layoutY="328.0" prefHeight="17.0" prefWidth="431.0" />
-                  <Label layoutX="128.0" layoutY="142.0" prefHeight="17.0" prefWidth="118.0" text="Informações:">
+                  <Label fx:id="labelInfoPontMin" layoutX="130.0" layoutY="300.0" prefHeight="17.0" prefWidth="431.0" />
+                  <Label fx:id="labelInfoPontMax" layoutX="130.0" layoutY="330.0" prefHeight="17.0" prefWidth="431.0" />
+                  <Label layoutX="130.0" layoutY="142.0" prefHeight="17.0" prefWidth="118.0" text="Informações:">
                      <font>
                         <Font size="20.0" />
                      </font>

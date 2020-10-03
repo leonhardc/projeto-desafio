@@ -9,7 +9,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 /**
- *
+ * Classe que auxilia no fluxo de dados. Utilizada para guardar, em tempo de execussão, os dados do banco de dados mysql
  * @author Leonardo
  */
 public class Dados {
@@ -20,8 +20,11 @@ public class Dados {
     private final int maxtemp;
     private final int quebramin;
     private final int quebramax;
+    
+         
 
     public Dados(int jogo, int placar, int mintemp, int maxtemp, int quebramin, int quebramax) {
+        
         this.jogo = jogo;
         this.placar = placar;
         this.mintemp = mintemp;
@@ -30,32 +33,4 @@ public class Dados {
         this.quebramax = quebramax;
     }
 
-    public int getJogo() {
-        return jogo;
-    }
-
-    public int getPlacar() {
-        return placar;
-    }
-
-    public int getMintemp() {
-        return mintemp;
-    }
-
-    public int getMaxtemp() {
-        return maxtemp;
-    }
-
-    public int getQuebramin() {
-        return quebramin;
-    }
-
-    public int getQuebramax() {
-        return quebramax;
-    }
-
-    // metodos seters
-
-
-    
 }

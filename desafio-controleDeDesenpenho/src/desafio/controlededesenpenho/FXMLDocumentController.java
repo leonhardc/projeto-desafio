@@ -13,16 +13,13 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -34,73 +31,52 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javax.swing.JOptionPane;
-import javafx.stage.Stage;
 
 /**
- *
+ * Classe controle para a aplicação Javafx criada
  * @author Leonardo
  */
 public class FXMLDocumentController implements Initializable{
     
-    @FXML
-    private Tab tabDados;
+    @FXML private Tab tabDados;    
 
-    @FXML
-    private TableView<Dados> tabelaDados;
+    @FXML private TableView<Dados> tabelaDados;    
 
-    @FXML
-    private TableColumn<Dados, String> colJogo;
+    @FXML private TableColumn<Dados, String> colJogo;    
 
-    @FXML
-    private TableColumn<Dados, String> colPlacar;
+    @FXML private TableColumn<Dados, String> colPlacar;    
 
-    @FXML
-    private TableColumn<Dados, String> colPMin;
+    @FXML private TableColumn<Dados, String> colPMin;    
 
-    @FXML
-    private TableColumn<Dados, String> colPMax;
+    @FXML private TableColumn<Dados, String> colPMax;    
 
-    @FXML
-    private TableColumn<Dados, String> colQuebraMin;
-
-    @FXML
-    private TableColumn<Dados, String> colQuebraMax;
-
-    @FXML
-    private Button botaoAdicionar;
-
-    @FXML
-    private Button botaoExcluir;
-
-    @FXML
-    private Tab tabDesempenho;
+    @FXML private TableColumn<Dados, String> colQuebraMin;
     
-    @FXML
-    private LineChart <String,Number> graficoLinha;
+    @FXML private TableColumn<Dados, String> colQuebraMax;    
 
-    @FXML
-    private CategoryAxis linhaDeJogos;
+    @FXML private Button botaoAdicionar;
+    
+    @FXML private Button botaoExcluir;    
 
-    @FXML
-    private NumberAxis linhaDePontuacao;
+    @FXML private Tab tabDesempenho;    
     
-    @FXML
-    private Label labelInfo;
+    @FXML private LineChart <String,Number> graficoLinha;
+    
+    @FXML private CategoryAxis linhaDeJogos;    
 
-    @FXML
-    private Label labelMedia;
+    @FXML private NumberAxis linhaDePontuacao;   
     
-    @FXML
-    private Label labelRecMin;
-    
-    @FXML
-    private Label labelRecMax;
-    
-    @FXML
-    private Label labelInfoPontMin;
+    @FXML private Label labelInfo;    
 
-    @FXML
-    private Label labelInfoPontMax;
+    @FXML private Label labelMedia;
+        
+    @FXML private Label labelRecMin;
+        
+    @FXML private Label labelRecMax;    
+    
+    @FXML private Label labelInfoPontMin;    
+
+    @FXML private Label labelInfoPontMax;    
     
     int ultimoJogo;
     int placar;
@@ -109,8 +85,12 @@ public class FXMLDocumentController implements Initializable{
     int quebramin, ultquebramin;
     int quebramax, ultquebramax;
     
-    // Métodos
     
+    // Métodos
+    /**
+     *  Método que atualiza valores da tabela segundo os dados contidos no banco de dados da aplicação
+     * @see atualizaTabela()
+     */
     void atualizaTabela() throws SQLException { // Metodo usado para atualizar os dados da tabela
         
         Connection conn = ConexaoDB.getConexaoMySQL(); // conexão com banco de dados    
@@ -138,13 +118,20 @@ public class FXMLDocumentController implements Initializable{
         
         ConexaoDB.FecharConexao(); // fechar conexção com banco de dados        
         setarDadosGrafico(); // Atualiza valores do gráfico na aba desempenho na aba de desempenho
-    }  
     
+    } // fim da função atualizaDadosTabela()  
+    
+    
+    /**
+     * Método para atualizar dados no gráfico da aba de desempenho, segundo os valores contidos no banco de dados. 
+     * Em adicional, esse método também seta os valors das Labels contidas na aba de desempenho
+     * @see setarDadosGrafico()
+     */
     @FXML
     void setarDadosGrafico() throws SQLException{ // Seta os dados contidos no banco de dados no gráfico de linha da aba de desempenho
         
         XYChart.Series <String, Number> jogo = new XYChart.Series <String, Number>();
-        int somaPlacar = 0, recMin = 0, recMax = 0, numeroDeJogos = 0, auxPontos, mediaPlacar, qMin = 0, qMax = 0;
+        int somaPlacar = 0, recMin = 0, recMax = 0, numeroDeJogos = 1, auxPontos, mediaPlacar, qMin = 0, qMax = 0;
         String auxJogo;      
         
         //Inicio: Procurar dados no banco
@@ -195,8 +182,15 @@ public class FXMLDocumentController implements Initializable{
         graficoLinha.getData().add(jogo);
         
   
-    } 
+    } // fim da função setarDadosGráfico 
     
+    
+    /**
+     * Método que controla a ação do botão de adicionar dados de novo jogo.
+     * Aqui são calculados também, os valores dos campos de Jogo, Pontuação mínima e máximo da temporada e
+     * quantidade quebras dos recordes minimos e máximos da temporada.
+     * @see botaoAdiciona()
+     */
     @FXML
     private void botaoAdiciona() throws SQLException{
  
@@ -211,20 +205,15 @@ public class FXMLDocumentController implements Initializable{
                 String sqlBuscaUltima = "select * from registros where Jogo = (select max(Jogo) from registros)";
                 String sqlAdd = "insert into registros (Jogo, Placar, MinTemp, MaxTemp, QuebraRecMin, QuebraRecMax) values (?,?,?,?,?,?)";
 
-                /** Passos do processo daqui para frente
-                 1. realiza busca da ultima tupla
-                 2. compara valores para saber se algo a mais será modificado
-                 3. reinsere valores no banco*/
-
                 // Primeiro passo: Realizar busca da ultima tupla
 
                  ResultSet res = conn.createStatement().executeQuery("select * from registros where Jogo = (select max(Jogo) from registros)");
                  while(res.next()){
-                 ultimoJogo = res.getInt(1);
-                 ultmintemp = res.getInt(3);
-                 ultmaxtemp = res.getInt(4);
-                 ultquebramin = res.getInt(5);
-                 ultquebramax = res.getInt(6);
+                     ultimoJogo = res.getInt(1);
+                     ultmintemp = res.getInt(3);
+                     ultmaxtemp = res.getInt(4);
+                     ultquebramin = res.getInt(5);
+                     ultquebramax = res.getInt(6);
                  }
 
 
@@ -288,14 +277,20 @@ public class FXMLDocumentController implements Initializable{
        
        }    
         
-    }
+    } // fim da função botaoAdiciona()
     
+    
+    /**
+     * Esse método exclui o ultimo jogo listado na tabela
+     * @see botaoExclui()
+     */
     @FXML
     private void botaoExclui() throws SQLException{      
         
         int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o ultimo jogo?","Mensagem", JOptionPane.YES_NO_OPTION);
 
         if (resposta == JOptionPane.YES_OPTION) {
+            
             //Usuário clicou em Sim. Executar o código correspondente.
             Connection conn = ConexaoDB.getConexaoMySQL();        
             // seleciona do banco o ultimo registro
@@ -309,27 +304,34 @@ public class FXMLDocumentController implements Initializable{
             PreparedStatement statement = conn.prepareStatement("delete from registros where Jogo = ?");
             statement.setInt(1, ultimoJogo);
             statement.executeUpdate();
-            ultimoJogo = ultimoJogo - 1; // atualiza a variavel global
+            
+            if (ultimoJogo > 0){
+                ultimoJogo = ultimoJogo - 1; // atualiza a variavel global
+            }
+            else{
+                // nao faz nada
+            }
+            
             ConexaoDB.FecharConexao();
             atualizaTabela();
                         
         } else if (resposta == JOptionPane.NO_OPTION) {
-            //Usuário clicou em não.
+            //Usuário clicou em não. Não faça nada
         }     
         
-    }    
+    }    // Fim da Função botaoExclui()
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
        
-    try {
-        atualizaTabela();
-        setarDadosGrafico();
-        
-    } catch (SQLException ex) {
-        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-    }
+        try {
+            atualizaTabela();
+            setarDadosGrafico();
 
-    } 
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    } // fim da função Inicialize
 
 }
