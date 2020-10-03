@@ -33,4 +33,30 @@ public class Dados {
         this.quebramax = quebramax;
     }
 
+    public int getJogo() {
+        return jogo;
+    }
+
+    public int getPlacar() {
+        return placar;
+    }
+
+    public int getMintemp() {
+        return mintemp;
+    }
+
+    public int getMaxtemp() {
+        return maxtemp;
+    }
+
+    public int getQuebramin() {
+        return quebramin;
+    }
+
+    public int getQuebramax() {
+        return quebramax;
+    }
+    
+    
+
 }
